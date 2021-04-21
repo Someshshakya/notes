@@ -13,3 +13,12 @@ module.exports = knex.schema.hasTable('phone')
                         console.log(err)
                     })
 
+// module.exports = knex.schema.hasTable('phone')
+//                     .then(async(exists)=>{
+//                         if (!exists){
+//                             return await knex.schema.dropTable('phone');
+//                         }
+//                     },console.log("table created"))
+//                     .catch((err)=>{
+//                         console.log(err)
+//                     })

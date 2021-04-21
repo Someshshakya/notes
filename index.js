@@ -6,7 +6,7 @@ const knex = require('./model/db_config')
 // db configuration
 require('./model/db_config')
 // to create a Phon/e table
-require('./model/phone')
+// require('./model/phone')
 
 // to create notes table
 // require('./model/notes');
@@ -28,9 +28,10 @@ app.post("/add_notes",async (req,res)=>{
     for (i in body){
         let ph_id = body[i].pn_id;
         let notes = body[i].notes;
-        await knex('notes').insert({"notes":notes}).where("ph_id",ph_id);
+        await knex('notes').insert({"notes":notes, "ph_id":ph_id })
+
     }
-    res.send({Msg:"working"})
+    res.send({Msg:"added successfully!"})
    } catch (error) {
        console.log(error)
        res.send({erMsg:error})
@@ -41,8 +42,19 @@ app.post("/add_notes",async (req,res)=>{
 app.get('/display_notes', async(req,res)=>{
     try {
         let phone = req.body.phone;
-        let id = await knex('phone').select('id').where('phone',phone);
-        console.log(id);
+        var id = await knex('phone').select('id').where('phone',phone);
+        if (id.length!=0){
+            id = id[0].id
+            let notes = await knex('notes').select("*").where('ph_id',id)
+            if (notes.length!=0){
+                res.send(notes)
+            }else{
+                res.send({msg:"Ops you have no such notes"})
+            }
+        }else{
+            res.send("plz register first")
+        }
+        
     } catch (error) {
         console.log(error)
         res.send({errmsg:error})

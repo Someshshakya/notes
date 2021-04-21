@@ -4,7 +4,7 @@ const knex = require('knex')({
       host : '127.0.0.1', 
       user : 'root',
       password : '',
-      database : 'notes'
+      database : 'notes1'
     }
   },
   console.log('Notes database connected..'));
